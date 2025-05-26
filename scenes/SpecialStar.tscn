@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://blxvxb8ixqxqf"]
+
+[ext_resource type="Script" uid="uid://daak6dkcb8s1l" path="res://scripts/SpecialStar.gd" id="1_5hdqg"]
+[ext_resource type="Texture2D" uid="uid://dlxvxb8ixqxqh" path="res://assets/images/special_star.png" id="2_6hdqi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5hdqj"]
+radius = 25.0
+
+[node name="SpecialStar" type="RigidBody2D"]
+collision_layer = 2
+gravity_scale = 0.0
+script = ExtResource("1_5hdqg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_6hdqi")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_5hdqj")
+
+[node name="VisibilityNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_visibility_notifier_2d_screen_exited"]

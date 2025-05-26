@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkxvxb8ixqxqa"]
+
+[ext_resource type="Script" uid="uid://dvawlt1yrd1d5" path="res://scripts/Star.gd" id="1_3hdqc"]
+[ext_resource type="Texture2D" uid="uid://ckxvxb8ixqxqb" path="res://assets/images/star.png" id="2_4hdqd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3hdqe"]
+radius = 20.0
+
+[node name="Star" type="RigidBody2D"]
+collision_layer = 2
+gravity_scale = 0.0
+script = ExtResource("1_3hdqc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_4hdqd")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_3hdqe")
+
+[node name="VisibilityNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_visibility_notifier_2d_screen_exited"]
