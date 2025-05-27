@@ -112,11 +112,11 @@ var player_name: String = "玩家"
 
 # 函数定义
 func _ready():
-    print("游戏开始!")
+	print("游戏开始!")
 
 func _process(delta):
-    # 每帧调用
-    pass
+	# 每帧调用
+	pass
 
 # 信号连接
 signal star_collected(points)

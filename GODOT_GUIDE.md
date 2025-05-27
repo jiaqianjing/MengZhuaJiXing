@@ -161,57 +161,57 @@ const MAX_HEALTH = 100
 ```gdscript
 # 基本函数
 func say_hello():
-    print("你好!")
+	print("你好!")
 
 # 带参数的函数
 func add_score(points: int):
-    score += points
+	score += points
 
 # 带返回值的函数
 func get_player_name() -> String:
-    return player_name
+	return player_name
 ```
 
 #### 重要的内置函数
 ```gdscript
 func _ready():
-    # 节点初始化时调用（只调用一次）
-    print("游戏开始!")
+	# 节点初始化时调用（只调用一次）
+	print("游戏开始!")
 
 func _process(delta):
-    # 每帧调用，delta是帧间隔时间
-    pass
+	# 每帧调用，delta是帧间隔时间
+	pass
 
 func _physics_process(delta):
-    # 物理更新时调用，频率固定
-    pass
+	# 物理更新时调用，频率固定
+	pass
 
 func _input(event):
-    # 处理输入事件
-    if event is InputEventKey:
-        print("按键被按下")
+	# 处理输入事件
+	if event is InputEventKey:
+		print("按键被按下")
 ```
 
 #### 条件语句
 ```gdscript
 if health > 50:
-    print("健康状态良好")
+	print("健康状态良好")
 elif health > 20:
-    print("健康状态一般")
+	print("健康状态一般")
 else:
-    print("健康状态危险")
+	print("健康状态危险")
 ```
 
 #### 循环语句
 ```gdscript
 # for 循环
 for i in range(10):
-    print(i)
+	print(i)
 
 # while 循环
 while health > 0:
-    # 游戏继续
-    pass
+	# 游戏继续
+	pass
 ```
 
 ### 信号（Signal）系统
@@ -222,18 +222,18 @@ signal player_died
 
 # 发射信号
 func take_damage(damage: int):
-    health -= damage
-    health_changed.emit(health)
-    
-    if health <= 0:
-        player_died.emit()
+	health -= damage
+	health_changed.emit(health)
+	
+	if health <= 0:
+		player_died.emit()
 
 # 连接信号（在代码中）
 func _ready():
-    player_died.connect(_on_player_died)
+	player_died.connect(_on_player_died)
 
 func _on_player_died():
-    print("玩家死亡!")
+	print("玩家死亡!")
 ```
 
 ## 🎮 2D 游戏开发要点
@@ -253,15 +253,15 @@ func _on_player_died():
 ```gdscript
 # 检测按键状态
 func _process(delta):
-    if Input.is_action_pressed("move_left"):
-        position.x -= speed * delta
-    if Input.is_action_pressed("move_right"):
-        position.x += speed * delta
+	if Input.is_action_pressed("move_left"):
+		position.x -= speed * delta
+	if Input.is_action_pressed("move_right"):
+		position.x += speed * delta
 
 # 检测按键事件
 func _input(event):
-    if event.is_action_pressed("jump"):
-        jump()
+	if event.is_action_pressed("jump"):
+		jump()
 ```
 
 ### 动画系统
@@ -316,7 +316,7 @@ print("当前分数: ", score)
 
 # 条件调试
 if debug_mode:
-    print("调试信息: ", some_variable)
+	print("调试信息: ", some_variable)
 
 # 断言检查
 assert(health >= 0, "生命值不能为负数")

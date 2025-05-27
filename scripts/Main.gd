@@ -101,13 +101,28 @@ func end_game():
 	game_over = true
 	star_spawner.stop()
 
-	# 显示游戏结束面板
+	# 暂停游戏（除了UI）
+	get_tree().paused = true
+
+	# 设置游戏结束面板为不受暂停影响
 	if game_over_panel:
+		game_over_panel.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		game_over_panel.visible = true
 
 	print("游戏结束! 最终分数: ", score)
 
+func clear_all_stars():
+	"""清除场景中所有的星星"""
+	# 获取所有子节点
+	for child in get_children():
+		# 检查是否是星星节点（通过组或脚本判断）
+		if child.has_method("collect") or child.name.begins_with("Star") or child.name.begins_with("SpecialStar"):
+			child.queue_free()
+
 func _on_restart_button_pressed():
 	"""重新开始按钮回调"""
 	print("重新开始游戏")
+	# 取消暂停
+	get_tree().paused = false
+	# 重新加载场景
 	get_tree().reload_current_scene()

@@ -29,13 +29,13 @@ func _physics_process(delta):
 func handle_input(delta):
 	"""处理输入控制"""
 	var input_direction = 0
-	
+
 	# 检测左右移动输入
 	if Input.is_action_pressed("move_left"):
 		input_direction -= 1
 	if Input.is_action_pressed("move_right"):
 		input_direction += 1
-	
+
 	# 应用移动逻辑
 	if input_direction != 0:
 		# 有输入时加速
@@ -52,7 +52,7 @@ func clamp_to_screen():
 func _on_area_2d_area_entered(area):
 	"""检测到区域进入 - 处理星星收集"""
 	var star = area.get_parent()
-	
+
 	if star.has_method("collect"):
 		var points = star.collect()
 		star_collected.emit(points)
