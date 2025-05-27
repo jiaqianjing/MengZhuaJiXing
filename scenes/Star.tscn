@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkxvxb8ixqxqa"]
 
-[ext_resource type="Script" uid="uid://dvawlt1yrd1d5" path="res://scripts/Star.gd" id="1_3hdqc"]
-[ext_resource type="Texture2D" uid="uid://ckxvxb8ixqxqb" path="res://assets/images/star.png" id="2_4hdqd"]
+[ext_resource type="Script" path="res://scripts/Star.gd" id="1_3hdqc"]
+[ext_resource type="Texture2D" path="res://assets/images/star.png" id="2_4hdqd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hdqe"]
 radius = 20.0

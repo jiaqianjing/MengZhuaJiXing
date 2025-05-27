@@ -24,15 +24,63 @@ var spawn_time_decrease: float = 0.02
 @onready var star_spawner = $StarSpawner
 @onready var player = $Player
 
+# 音频节点引用
+@onready var star_collect_sound = $AudioPlayers/StarCollectSound
+@onready var special_star_sound = $AudioPlayers/SpecialStarSound
+@onready var game_over_sound = $AudioPlayers/GameOverSound
+@onready var background_music = $AudioPlayers/BackgroundMusic
+
 func _ready():
 	"""游戏初始化"""
 	print("萌爪集星游戏开始!")
 	update_ui()
 
+	# 加载音效文件
+	load_audio_files()
+
 	# 连接玩家信号
 	if player:
 		player.star_collected.connect(_on_star_collected)
 		player.life_lost.connect(_on_life_lost)
+
+func load_audio_files():
+	"""加载音效文件"""
+	var audio_loaded = true
+
+	if star_collect_sound:
+		var audio_resource = load("res://assets/sounds/star_collect.wav")
+		if audio_resource:
+			star_collect_sound.stream = audio_resource
+		else:
+			audio_loaded = false
+
+	if special_star_sound:
+		var audio_resource = load("res://assets/sounds/special_star.wav")
+		if audio_resource:
+			special_star_sound.stream = audio_resource
+		else:
+			audio_loaded = false
+
+	if game_over_sound:
+		var audio_resource = load("res://assets/sounds/game_over.wav")
+		if audio_resource:
+			game_over_sound.stream = audio_resource
+		else:
+			audio_loaded = false
+
+	if background_music:
+		var audio_resource = load("res://assets/music/background.wav")
+		if audio_resource:
+			background_music.stream = audio_resource
+			background_music.volume_db = -10.0
+			background_music.autoplay = true
+		else:
+			audio_loaded = false
+
+	if audio_loaded:
+		print("音效文件加载完成")
+	else:
+		print("部分音效文件加载失败，游戏将以静音模式运行")
 
 func _on_star_spawner_timeout():
 	"""星星生成器超时回调 - 生成新的星星"""
@@ -69,6 +117,15 @@ func _on_star_collected(points: int):
 	"""星星被收集时的回调"""
 	score += points
 	update_ui()
+
+	# 播放音效
+	if points == 50:  # 特殊星星
+		if special_star_sound:
+			special_star_sound.play()
+	else:  # 普通星星
+		if star_collect_sound:
+			star_collect_sound.play()
+
 	print("收集到星星! 获得 ", points, " 分")
 
 func _on_life_lost():
@@ -100,6 +157,15 @@ func end_game():
 	"""游戏结束处理"""
 	game_over = true
 	star_spawner.stop()
+
+	# 停止背景音乐
+	if background_music:
+		background_music.stop()
+
+	# 设置音频播放器不受暂停影响
+	if game_over_sound:
+		game_over_sound.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+		game_over_sound.play()
 
 	# 暂停游戏（除了UI）
 	get_tree().paused = true
