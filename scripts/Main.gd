@@ -74,6 +74,9 @@ func load_audio_files():
 			background_music.stream = audio_resource
 			background_music.volume_db = -10.0
 			background_music.autoplay = true
+			# 手动播放背景音乐，确保它开始播放
+			background_music.play()
+			print("背景音乐开始播放")
 		else:
 			audio_loaded = false
 
@@ -120,11 +123,17 @@ func _on_star_collected(points: int):
 
 	# 播放音效
 	if points == 50:  # 特殊星星
-		if special_star_sound:
+		if special_star_sound and special_star_sound.stream:
 			special_star_sound.play()
+			print("播放特殊星星音效")
+		else:
+			print("特殊星星音效播放失败 - 音频节点或流为空")
 	else:  # 普通星星
-		if star_collect_sound:
+		if star_collect_sound and star_collect_sound.stream:
 			star_collect_sound.play()
+			print("播放普通星星音效")
+		else:
+			print("普通星星音效播放失败 - 音频节点或流为空")
 
 	print("收集到星星! 获得 ", points, " 分")
 
@@ -163,9 +172,12 @@ func end_game():
 		background_music.stop()
 
 	# 设置音频播放器不受暂停影响
-	if game_over_sound:
+	if game_over_sound and game_over_sound.stream:
 		game_over_sound.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 		game_over_sound.play()
+		print("播放游戏结束音效")
+	else:
+		print("游戏结束音效播放失败 - 音频节点或流为空")
 
 	# 暂停游戏（除了UI）
 	get_tree().paused = true

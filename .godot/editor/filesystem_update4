@@ -1,3 +1,7 @@
+res://scenes/Main.tscn
+res://scenes/Player.tscn
 res://scenes/SpecialStar.tscn
 res://scenes/Star.tscn
+res://GODOT_GUIDE.md
+res://README.md
 res://scripts/Main.gd
