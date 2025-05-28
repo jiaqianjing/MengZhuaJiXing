@@ -19,16 +19,30 @@ MengZhuaJiXing/
 │   ├── Main.tscn          # 主游戏场景
 │   ├── Player.tscn        # 玩家场景
 │   ├── Star.tscn          # 普通星星场景
-│   └── SpecialStar.tscn   # 特殊星星场景
+│   ├── SpecialStar.tscn   # 特殊星星场景
+│   └── Tutorial.tscn      # 教程场景
 ├── scripts/               # 脚本文件
 │   ├── Main.gd            # 主游戏逻辑
 │   ├── Player.gd          # 玩家控制
 │   ├── Star.gd            # 普通星星逻辑
-│   └── SpecialStar.gd     # 特殊星星逻辑
+│   ├── SpecialStar.gd     # 特殊星星逻辑
+│   └── Tutorial.gd        # 教程逻辑
 ├── assets/                # 资源文件
 │   ├── images/            # 图像资源
+│   │   ├── icon.png       # 游戏图标
+│   │   ├── image_catch.png # 角色捕获状态
+│   │   ├── image_run.png  # 角色移动状态
+│   │   ├── image_still.png # 角色静止状态
+│   │   ├── player.png     # 备用角色图像
+│   │   ├── star.png       # 普通星星
+│   │   └── special_star.png # 特殊星星
 │   ├── sounds/            # 音效文件
+│   │   ├── game_over.wav  # 游戏结束音效
+│   │   ├── special_star.wav # 特殊星星音效
+│   │   └── star_collect.wav # 收集星星音效
 │   └── music/             # 背景音乐
+│       └── background.wav # 背景音乐
+├── export_presets.cfg     # 导出配置
 └── README.md              # 项目说明
 ```
 

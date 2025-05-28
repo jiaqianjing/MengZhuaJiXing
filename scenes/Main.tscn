@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 480.0
 offset_bottom = 854.0
-color = Color(0.1, 0.1, 0.3, 1)
+color = Color(0.6, 0.75, 0.9, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_1hdqy")]
 position = Vector2(240, 750)

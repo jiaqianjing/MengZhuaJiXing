@@ -58,6 +58,10 @@ func _ready():
 	# 设置初始状态（这会立即显示静止纹理）
 	change_state(PlayerState.STILL)
 
+	# 确保纹理立即应用
+	if sprite and sprite.texture:
+		adjust_sprite_scale(sprite.texture)
+
 	print("玩家初始化完成，当前纹理: ", sprite.texture)
 
 func load_textures():
@@ -121,8 +125,11 @@ func adjust_sprite_scale(texture: Texture2D):
 	var texture_size = texture.get_size()
 	var scale_ratio = player_display_size / max(texture_size.x, texture_size.y)
 
-	# 应用统一缩放，保持宽高比
-	sprite.scale = Vector2(scale_ratio, scale_ratio)
+	# 保持当前的方向（正负值）
+	var current_x_direction = 1.0 if sprite.scale.x >= 0 else -1.0
+
+	# 应用统一缩放，保持宽高比和方向
+	sprite.scale = Vector2(scale_ratio * current_x_direction, scale_ratio)
 
 	print("纹理尺寸: %s, 目标大小: %s像素, 应用缩放: %s" % [texture_size, player_display_size, scale_ratio])
 
