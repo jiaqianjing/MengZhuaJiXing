@@ -1,7 +1,1 @@
-res://scripts/Player.gd
-res://scenes/Main.tscn
-res://scripts/Main.gd
-res://scripts/Tutorial.gd
-res://test_player_states.gd
-res://scripts/DopamineBackground.gd
-res://README.md
+res://scenes/Tutorial.tscn

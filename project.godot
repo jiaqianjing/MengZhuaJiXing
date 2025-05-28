@@ -14,7 +14,11 @@ config/name="萌爪集星"
 config/description="一个可爱的2D休闲收集游戏"
 run/main_scene="res://scenes/Tutorial.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0.6, 0.75, 0.9, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://nxbsmqqr45kd"
 config/icon="res://assets/images/icon.png"
+boot_splash/minimum_display_time=1000
 
 [display]
 
@@ -22,7 +26,6 @@ window/size/viewport_width=480
 window/size/viewport_height=854
 window/size/resizable=false
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 window/handheld/orientation=1
 
 [input]

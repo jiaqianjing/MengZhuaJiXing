@@ -71,9 +71,13 @@ func load_textures():
 	catch_texture = load("res://assets/images/image_catch.png")
 
 	if not still_texture or not run_texture or not catch_texture:
-		print("警告：部分玩家纹理加载失败，使用默认纹理")
-		# 如果新纹理加载失败，使用原始纹理作为备用
-		var default_texture = load("res://assets/images/player.png")
+		print("错误：玩家纹理加载失败！请检查资源文件")
+		# 如果纹理加载失败，使用默认的白色方块
+		var default_texture = ImageTexture.new()
+		var image = Image.create(64, 64, false, Image.FORMAT_RGB8)
+		image.fill(Color.WHITE)
+		default_texture.set_image(image)
+
 		if not still_texture:
 			still_texture = default_texture
 		if not run_texture:
