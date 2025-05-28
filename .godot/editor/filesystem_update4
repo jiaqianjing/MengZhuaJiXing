@@ -1,7 +1,5 @@
+res://scripts/Player.gd
 res://scenes/Main.tscn
-res://scenes/Player.tscn
-res://scenes/SpecialStar.tscn
-res://scenes/Star.tscn
-res://GODOT_GUIDE.md
-res://README.md
 res://scripts/Main.gd
+res://scripts/Tutorial.gd
+res://test_player_states.gd

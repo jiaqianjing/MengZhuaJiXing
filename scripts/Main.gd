@@ -106,8 +106,8 @@ func spawn_star():
 	else:
 		star_instance = star_scene.instantiate()
 
-	# 设置星星的随机水平位置
-	var spawn_x = randf_range(50, get_viewport().size.x - 50)
+	# 设置星星的随机水平位置（适应竖屏480宽度）
+	var spawn_x = randf_range(50, 430)  # 480 - 50 = 430
 	star_instance.position = Vector2(spawn_x, -50)
 
 	# 连接星星信号
@@ -204,3 +204,9 @@ func _on_restart_button_pressed():
 	get_tree().paused = false
 	# 重新加载场景
 	get_tree().reload_current_scene()
+
+func _on_tutorial_button_pressed():
+	"""教程按钮回调"""
+	print("显示操作指南")
+	# 跳转到教程场景
+	get_tree().change_scene_to_file("res://scenes/Tutorial.tscn")

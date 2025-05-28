@@ -12,16 +12,18 @@ config_version=5
 
 config/name="萌爪集星"
 config/description="一个可爱的2D休闲收集游戏"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/Tutorial.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://assets/images/icon.png"
 
 [display]
 
-window/size/viewport_width=800
-window/size/viewport_height=600
+window/size/viewport_width=480
+window/size/viewport_height=854
 window/size/resizable=false
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+window/handheld/orientation=1
 
 [input]
 
@@ -48,3 +50,4 @@ move_right={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
