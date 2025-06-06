@@ -1,78 +1,78 @@
 extends CharacterBody2D
 
-# 玩家控制脚本
-# 处理玩家移动和碰撞检测
+# Player control script
+# Handles player movement and collision detection
 
-# 信号定义 - 用于与主场景通信
+# Signal definitions - for communication with main scene
 signal star_collected(points: int)
 signal life_lost
 
-# 移动参数
+# Movement parameters
 @export var speed: float = 300.0
 @export var acceleration: float = 1500.0
 @export var friction: float = 1200.0
 
-# 玩家状态枚举
+# Player state enumeration
 enum PlayerState {
-	STILL,    # 静止状态
-	RUNNING,  # 移动状态
-	CATCHING  # 捕获星星状态
+	STILL,    # Still state
+	RUNNING,  # Moving state
+	CATCHING  # Catching star state
 }
 
-# 状态相关变量
+# State related variables
 var current_state: PlayerState = PlayerState.STILL
 var catch_animation_timer: float = 0.0
-var catch_animation_duration: float = 0.3  # 捕获动画持续时间
+var catch_animation_duration: float = 0.3  # Catch animation duration
 
-# 移动方向
-var last_movement_direction: float = 1.0  # 1.0 = 向右, -1.0 = 向左
+# Movement direction
+var last_movement_direction: float = 1.0  # 1.0 = right, -1.0 = left
 
-# 显示设置
-@export var player_display_size: float = 60.0  # 玩家显示大小（像素）
+# Display settings
+@export var player_display_size: float = 60.0  # Player display size (pixels)
 
-# 纹理资源
+# Texture resources
 @export var still_texture: Texture2D
 @export var run_texture: Texture2D
 @export var catch_texture: Texture2D
 
-# 屏幕边界
+# Screen boundaries
 var screen_size: Vector2
 
-# 触屏控制
+# Touch control
 var touch_input_direction: float = 0.0
 
-# 节点引用
+# Node references
 @onready var sprite: Sprite2D = $Sprite2D
 
 func _ready():
-	"""初始化玩家"""
+	"""Initialize player"""
 	screen_size = get_viewport_rect().size
 
-	# 确保精灵节点可见
+	# Ensure sprite node is visible
 	if sprite:
 		sprite.visible = true
 
-	# 加载纹理资源
+	# Load texture resources
 	load_textures()
 
-	# 设置初始状态（这会立即显示静止纹理）
+	# Set initial state (this will immediately show still texture)
 	change_state(PlayerState.STILL)
 
-	# 确保纹理立即应用
+	# Ensure texture is applied immediately
 	if sprite and sprite.texture:
 		adjust_sprite_scale(sprite.texture)
 
-	print("玩家初始化完成，当前纹理: ", sprite.texture)
+	print("Player initialization complete, current texture: ", sprite.texture)
 
 func load_textures():
-	"""加载所有状态的纹理资源"""
+	"""Load texture resources for all states"""
 	still_texture = load("res://assets/images/image_still.png")
 	run_texture = load("res://assets/images/image_run.png")
 	catch_texture = load("res://assets/images/image_catch.png")
 
 	if not still_texture or not run_texture or not catch_texture:
-		print("错误：玩家纹理加载失败！请检查资源文件")
-		# 如果纹理加载失败，使用默认的白色方块
+		print("Error: Player texture loading failed! Please check resource files")
+		# If texture loading fails, use default white square
 		var default_texture = ImageTexture.new()
 		var image = Image.create(64, 64, false, Image.FORMAT_RGB8)
 		image.fill(Color.WHITE)
@@ -85,80 +85,80 @@ func load_textures():
 		if not catch_texture:
 			catch_texture = default_texture
 	else:
-		print("所有玩家状态纹理加载成功")
+		print("All player state textures loaded successfully")
 
 func change_state(new_state: PlayerState):
-	"""改变玩家状态并更新纹理"""
+	"""Change player state and update texture"""
 	if current_state == new_state:
 		return
 
 	current_state = new_state
 
-	# 根据状态更新纹理和缩放
+	# Update texture and scale based on state
 	match current_state:
 		PlayerState.STILL:
 			sprite.texture = still_texture
 			adjust_sprite_scale(still_texture)
-			print("切换到静止状态")
+			print("Switched to still state")
 		PlayerState.RUNNING:
 			sprite.texture = run_texture
 			adjust_sprite_scale(run_texture)
-			# 根据移动方向设置镜像
+			# Set mirroring based on movement direction
 			update_sprite_direction()
-			print("切换到移动状态，方向: ", last_movement_direction)
+			print("Switched to moving state, direction: ", last_movement_direction)
 		PlayerState.CATCHING:
 			sprite.texture = catch_texture
 			adjust_sprite_scale(catch_texture)
 			catch_animation_timer = catch_animation_duration
-			print("切换到捕获状态")
+			print("Switched to catching state")
 
 func update_sprite_direction():
-	"""根据移动方向更新精灵镜像"""
-	# 你的素材是向左奔跑的，所以向右移动时需要镜像反转
-	if last_movement_direction > 0:  # 向右移动
-		sprite.scale.x = abs(sprite.scale.x) * -1  # 镜像反转（负缩放）
-	else:  # 向左移动
-		sprite.scale.x = abs(sprite.scale.x)  # 保持原始方向（正缩放）
+	"""Update sprite mirroring based on movement direction"""
+	# Your sprite is running left, so need to mirror when moving right
+	if last_movement_direction > 0:  # Moving right
+		sprite.scale.x = abs(sprite.scale.x) * -1  # Mirror flip (negative scale)
+	else:  # Moving left
+		sprite.scale.x = abs(sprite.scale.x)  # Keep original direction (positive scale)
 
 func adjust_sprite_scale(texture: Texture2D):
-	"""根据纹理大小调整精灵缩放，保持合适的显示尺寸"""
+	"""Adjust sprite scale based on texture size, maintain appropriate display size"""
 	if not texture:
 		return
 
-	# 计算缩放比例，使用可调整的显示大小
+	# Calculate scale ratio using adjustable display size
 	var texture_size = texture.get_size()
 	var scale_ratio = player_display_size / max(texture_size.x, texture_size.y)
 
-	# 保持当前的方向（正负值）
+	# Maintain current direction (positive/negative value)
 	var current_x_direction = 1.0 if sprite.scale.x >= 0 else -1.0
 
-	# 应用统一缩放，保持宽高比和方向
+	# Apply uniform scaling, maintain aspect ratio and direction
 	sprite.scale = Vector2(scale_ratio * current_x_direction, scale_ratio)
 
-	print("纹理尺寸: %s, 目标大小: %s像素, 应用缩放: %s" % [texture_size, player_display_size, scale_ratio])
+	print("Texture size: %s, target size: %s pixels, applied scale: %s" % [texture_size, player_display_size, scale_ratio])
 
 func _physics_process(delta):
-	"""物理更新 - 处理玩家移动"""
+	"""Physics update - handle player movement"""
 	handle_input(delta)
 	move_and_slide()
 	clamp_to_screen()
 	update_state(delta)
 
 func update_state(delta):
-	"""更新玩家状态"""
-	# 处理捕获动画计时器
+	"""Update player state"""
+	# Handle catch animation timer
 	if current_state == PlayerState.CATCHING:
 		catch_animation_timer -= delta
 		if catch_animation_timer <= 0:
-			# 捕获动画结束，根据当前移动状态切换
-			if abs(velocity.x) > 10:  # 如果还在移动
+			# Catch animation ended, switch based on current movement state
+			if abs(velocity.x) > 10:  # If still moving
 				change_state(PlayerState.RUNNING)
 			else:
 				change_state(PlayerState.STILL)
-		return  # 捕获状态期间不改变其他状态
+		return  # Don't change other states during catch state
 
-	# 根据移动速度更新状态
-	if abs(velocity.x) > 10:  # 移动阈值
+	# Update state based on movement speed
+	if abs(velocity.x) > 10:  # Movement threshold
 		if current_state != PlayerState.RUNNING:
 			change_state(PlayerState.RUNNING)
 	else:
@@ -166,45 +166,45 @@ func update_state(delta):
 			change_state(PlayerState.STILL)
 
 func handle_input(delta):
-	"""处理输入控制 - 支持键盘和触屏"""
+	"""Handle input control - supports keyboard and touch"""
 	var input_direction = 0
 
-	# 检测键盘左右移动输入
+	# Detect keyboard left/right movement input
 	if Input.is_action_pressed("move_left"):
 		input_direction -= 1
 	if Input.is_action_pressed("move_right"):
 		input_direction += 1
 
-	# 检测触屏输入
+	# Detect touch input
 	var touch_input = get_touch_input()
 	if touch_input != 0:
 		input_direction = touch_input
 
-	# 记录移动方向（用于镜像反转）
+	# Record movement direction (for mirroring)
 	if input_direction != 0:
 		last_movement_direction = input_direction
 
-	# 应用移动逻辑
+	# Apply movement logic
 	if input_direction != 0:
-		# 有输入时加速
+		# Accelerate when there's input
 		velocity.x = move_toward(velocity.x, input_direction * speed, acceleration * delta)
 	else:
-		# 无输入时减速
+		# Decelerate when no input
 		velocity.x = move_toward(velocity.x, 0, friction * delta)
 
 func get_touch_input() -> float:
-	"""获取触屏输入方向"""
-	# 使用触屏控制变量
+	"""Get touch input direction"""
+	# Use touch control variable
 	return touch_input_direction
 
 func _input(event):
-	"""处理触屏和鼠标输入"""
-	# 处理触屏事件
+	"""Handle touch and mouse input"""
+	# Handle touch events
 	if event is InputEventScreenTouch:
 		handle_screen_touch(event)
 	elif event is InputEventScreenDrag:
 		handle_screen_drag(event)
-	# 处理鼠标事件（用于桌面测试）
+	# Handle mouse events (for desktop testing)
 	elif event is InputEventMouseButton:
 		if event.pressed:
 			handle_mouse_input(event.position)
@@ -212,45 +212,45 @@ func _input(event):
 			touch_input_direction = 0.0
 
 func handle_screen_touch(event: InputEventScreenTouch):
-	"""处理触屏触摸事件"""
+	"""Handle touch screen touch events"""
 	if event.pressed:
 		handle_touch_position(event.position)
 	else:
 		touch_input_direction = 0.0
 
 func handle_screen_drag(event: InputEventScreenDrag):
-	"""处理触屏拖拽事件"""
+	"""Handle touch screen drag events"""
 	handle_touch_position(event.position)
 
 func handle_mouse_input(mouse_pos: Vector2):
-	"""处理鼠标输入（用于桌面测试）"""
+	"""Handle mouse input (for desktop testing)"""
 	handle_touch_position(mouse_pos)
 
 func handle_touch_position(touch_pos: Vector2):
-	"""根据触摸位置确定移动方向"""
+	"""Determine movement direction based on touch position"""
 	var screen_center = screen_size.x / 2
 
 	if touch_pos.x < screen_center:
-		touch_input_direction = -1.0  # 向左移动
-		print("触屏：向左移动")
+		touch_input_direction = -1.0  # Move left
+		print("Touch: Move left")
 	else:
-		touch_input_direction = 1.0   # 向右移动
-		print("触屏：向右移动")
+		touch_input_direction = 1.0   # Move right
+		print("Touch: Move right")
 
 func clamp_to_screen():
-	"""限制玩家在屏幕范围内"""
-	var half_width = 40  # 玩家精灵的一半宽度
+	"""Limit player within screen bounds"""
+	var half_width = 40  # Half width of player sprite
 	position.x = clamp(position.x, half_width, screen_size.x - half_width)
 
 func _on_area_2d_area_entered(area):
-	"""检测到区域进入 - 处理星星收集"""
+	"""Area entered detected - handle star collection"""
 	var star = area.get_parent()
 
 	if star.has_method("collect"):
 		var points = star.collect()
 		star_collected.emit(points)
 
-		# 触发捕获状态动画
+		# Trigger catch state animation
 		change_state(PlayerState.CATCHING)
 
-		print("玩家收集到星星，获得 ", points, " 分!")
+		print("Player collected star, earned ", points, " points!")

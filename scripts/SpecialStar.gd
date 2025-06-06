@@ -1,68 +1,68 @@
 extends RigidBody2D
 
-# 特殊星星脚本
-# 继承自普通星星，但有更高的分值和特殊效果
+# Special star script
+# Inherits from normal star, but with higher value and special effects
 
-# 信号定义
+# Signal definitions
 signal star_missed
 
-# 特殊星星属性
-@export var fall_speed: float = 120.0  # 稍慢一些
-@export var points_value: int = 50     # 更高分值
-@export var rotation_speed: float = 4.0  # 更快旋转
-@export var pulse_speed: float = 3.0   # 脉动效果速度
+# Special star properties
+@export var fall_speed: float = 120.0  # Slightly slower
+@export var points_value: int = 50     # Higher value
+@export var rotation_speed: float = 4.0  # Faster rotation
+@export var pulse_speed: float = 3.0   # Pulse effect speed
 
-# 状态变量
+# State variables
 var collected: bool = false
 var time_passed: float = 0.0
 
 func _ready():
-	"""初始化特殊星星"""
-	# 设置下落速度
+	"""Initialize special star"""
+	# Set falling speed
 	linear_velocity = Vector2(0, fall_speed)
 
-	# 添加一些随机的水平速度
+	# Add some random horizontal velocity
 	linear_velocity.x = randf_range(-20, 20)
 
-	print("特殊星星生成，价值: ", points_value, " 分")
+	print("Special star spawned, value: ", points_value, " points")
 
 func _physics_process(delta):
-	"""物理更新 - 处理旋转和脉动动画"""
+	"""Physics update - handle rotation and pulse animation"""
 	if not collected:
 		time_passed += delta
 
-		# 旋转动画
+		# Rotation animation
 		rotation += rotation_speed * delta
 
-		# 脉动效果 - 让星星大小周期性变化
+		# Pulse effect - make star size change periodically
 		var pulse_scale = 1.0 + sin(time_passed * pulse_speed) * 0.2
 		scale = Vector2(pulse_scale * 2, pulse_scale * 2)
 
 func collect() -> int:
-	"""特殊星星被收集时调用"""
+	"""Called when special star is collected"""
 	if collected:
 		return 0
 
 	collected = true
 
-	# 播放特殊收集动画（闪烁效果）
+	# Play special collection animation (flashing effect)
 	var tween = create_tween()
 	tween.set_loops(3)
 	tween.tween_property(self, "modulate", Color.YELLOW, 0.1)
 	tween.tween_property(self, "modulate", Color.WHITE, 0.1)
 
-	# 缩放消失
+	# Scale to disappear
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.2)
 
-	# 延迟删除（不阻塞返回值）
+	# Delayed deletion (doesn't block return value)
 	tween.finished.connect(queue_free)
 
 	return points_value
 
 func _on_visibility_notifier_2d_screen_exited():
-	"""特殊星星离开屏幕时"""
+	"""When special star leaves screen"""
 	if not collected:
-		print("特殊星星漏接了! 损失了 ", points_value, " 分")
+		print("Special star missed! Lost ", points_value, " points")
 		star_missed.emit()
 
 	queue_free()

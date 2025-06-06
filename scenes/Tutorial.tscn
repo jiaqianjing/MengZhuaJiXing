@@ -49,7 +49,7 @@ grow_vertical = 2
 [node name="Title" type="Label" parent="TutorialPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "游戏教程"
+text = "Game Tutorial"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="TutorialPanel/VBoxContainer"]
@@ -58,14 +58,14 @@ layout_mode = 2
 [node name="StepLabel" type="Label" parent="TutorialPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "第1步"
+text = "Step 1"
 horizontal_alignment = 1
 
 [node name="InstructionLabel" type="Label" parent="TutorialPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "点击屏幕左侧向左移动
-点击屏幕右侧向右移动"
+text = "Tap left side of screen to move left
+Tap right side of screen to move right"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -75,9 +75,9 @@ layout_mode = 2
 [node name="HintLabel" type="Label" parent="TutorialPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "💡 提示：收集星星获得分数
-⭐ 金色星星价值更高
-❤️ 不要漏接星星，会失去生命"
+text = "Tip: Collect stars to earn points
+Golden stars are worth more
+Don't miss stars or you'll lose lives"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -90,15 +90,15 @@ alignment = 1
 
 [node name="PrevButton" type="Button" parent="TutorialPanel/VBoxContainer/ButtonContainer"]
 layout_mode = 2
-text = "上一步"
+text = "Previous"
 
 [node name="NextButton" type="Button" parent="TutorialPanel/VBoxContainer/ButtonContainer"]
 layout_mode = 2
-text = "下一步"
+text = "Next"
 
 [node name="StartButton" type="Button" parent="TutorialPanel/VBoxContainer/ButtonContainer"]
 layout_mode = 2
-text = "开始游戏"
+text = "Start Game"
 
 [node name="TouchIndicator" type="Control" parent="."]
 layout_mode = 1
@@ -133,7 +133,7 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 20
-text = "👈 轻触左移"
+text = "Tap to Move Left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -164,7 +164,7 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 20
-text = "轻触右移 👉"
+text = "Tap to Move Right"
 horizontal_alignment = 1
 vertical_alignment = 1
 

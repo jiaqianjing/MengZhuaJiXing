@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="萌爪集星"
-config/description="一个可爱的2D休闲收集游戏"
+config/name="Star Catcher"
+config/description="A cute 2D casual collection game"
 run/main_scene="res://scenes/Tutorial.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/show_image=false

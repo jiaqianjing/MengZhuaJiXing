@@ -42,7 +42,7 @@ offset_top = -60.0
 offset_right = 200.0
 offset_bottom = -20.0
 theme_override_font_sizes/font_size = 24
-text = "分数: 0"
+text = "Score: 0"
 
 [node name="LivesLabel" type="Label" parent="UI"]
 anchors_preset = 3
@@ -55,7 +55,7 @@ offset_top = -60.0
 offset_right = -20.0
 offset_bottom = -20.0
 theme_override_font_sizes/font_size = 24
-text = "生命: 3"
+text = "Lives: 3"
 horizontal_alignment = 2
 
 [node name="GameOverPanel" type="Panel" parent="UI"]
@@ -81,7 +81,7 @@ offset_top = -50.0
 offset_right = 100.0
 offset_bottom = -10.0
 theme_override_font_sizes/font_size = 32
-text = "游戏结束!"
+text = "Game Over!"
 horizontal_alignment = 1
 
 [node name="RestartButton" type="Button" parent="UI/GameOverPanel"]
@@ -94,7 +94,7 @@ offset_left = -50.0
 offset_top = 10.0
 offset_right = 50.0
 offset_bottom = 40.0
-text = "重新开始"
+text = "Restart"
 
 [node name="TutorialButton" type="Button" parent="UI"]
 anchors_preset = 1
@@ -104,7 +104,7 @@ offset_left = -100.0
 offset_top = 20.0
 offset_right = -20.0
 offset_bottom = 50.0
-text = "操作指南"
+text = "Tutorial"
 
 [connection signal="timeout" from="StarSpawner" to="." method="_on_star_spawner_timeout"]
 [connection signal="pressed" from="UI/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
